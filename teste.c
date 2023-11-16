@@ -5,7 +5,6 @@
 
 //OBS: terminar oitavas
 //adicionar o sistema de retirada da lista baseado nos maiores saldos
-//ocorre erro na contagem de saldo
 
 //OBS: adicionar a troca de fase: todos os times, de cada grupo, se enfrentam no sistema ida e volta
 		//o 2 melhores times, com melhor saldo, se enfrentam nas 4 de finais.
@@ -49,15 +48,38 @@ void inserir(lista **fim, time dados){
 	}
 }
 
-void buscar_e_tirar(lista **node, int inicio, int fim, int segundo_maior){
+int verifica_menor_saldo(lista **no){
+	lista *aux = *no;
+	lista *prox;
+	
+	prox = aux->proximo;
+	
+	int saldo = aux->dados.saldo;
+	int etiq = aux->dados.etiqueta;
+	
+	while(aux->proximo != NULL){
+		if(aux->dados.saldo < prox->dados.saldo){
+			saldo = aux->dados.saldo;
+			etiq = aux->dados.etiqueta;
+		}
+		
+		aux = aux->proximo;
+	}
+	
+	return etiq;
+}
+
+void buscar_e_tirar(lista **node, int inicio){
 	lista *atual = *node;
 	lista *prox = NULL;
+	
+	int fim = verifica_menor_saldo(node);
 	
 	while(inicio != atual->dados.etiqueta){
 		atual = atual->proximo;
 	}
 
-	while(atual->dados.etiqueta != fim && atual->dados.saldo < segundo_maior){
+	while(atual->dados.etiqueta != fim){
 		prox = atual;
 		atual = atual->proximo;
 	}
@@ -93,11 +115,13 @@ void recebe_pontos_sofridos(lista **node, int etiq, int pontos){
 
 	aux->dados.pontos_sofridos = aux->dados.pontos_sofridos + pontos;
 
+
 	if(aux->dados.pontos_sofridos >= aux->dados.pontos_feitos){
 		aux->dados.saldo = aux->dados.saldo + (aux->dados.pontos_sofridos - aux->dados.pontos_feitos);
 	}else{
 		aux->dados.saldo = aux->dados.saldo + (aux->dados.pontos_feitos - aux->dados.pontos_sofridos);
 	}
+	
 }
 
 int buscar_selecionar_pontos(lista **node, int etiq){
@@ -114,7 +138,7 @@ int buscar_selecionar_pontos(lista **node, int etiq){
 	aux->dados.pontos_feitos = aux->dados.pontos_feitos + pontos;
 
 	//para retornar os pontos feitos de um determinado time para pontos sofridos de outrem.
-	return aux->dados.pontos_feitos;
+	return pontos;
 }
 
 void selecionar_pontos(lista **no, int etiq1, int etiq2){
