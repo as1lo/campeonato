@@ -336,20 +336,35 @@ void inserir_nome(lista **node, time ally, int etiq){
 }
 
 
+int retorna_gols(lista *node, int etiq){
+    lista *aux = node;
+
+    while(aux->dados.etiqueta != etiq){
+        aux = aux->proximo;
+    }
+
+    return aux->dados.gols_feitos;
+}
+
+
 void sistema_quartas(lista **maior, lista **menor, int etiq_maior, int etiq_menor){
 	printf("\n | QUARTAS DE FINAL |\n\n");
 	lista *ma = *maior;
 	lista *me = *menor;
-
+    
+    int gols_do_maior = retorna_gols(ma, etiq_maior);
+	int gols_do_menor = retorna_gols(me, etiq_menor);
+        
 	selecionar_pontos_e_gols(maior, menor, etiq_maior, etiq_menor);
 	
 	calcula_saldo(maior);
 	calcula_saldo(menor);
 	mostra_contagem(ma, etiq_maior);
 	mostra_contagem(me, etiq_menor);
-	int gols_do_maior = 
-	int gols_do_menor = 
-	 
+    
+	gols_do_maior -= retorna_gols(ma, etiq_maior);
+	gols_do_menor -= retorna_gols(me, etiq_menor);
+    
 	printar(ma);
 
 	if(gols_do_maior > gols_do_menor){
