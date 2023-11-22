@@ -96,6 +96,7 @@ void buscar_tirar_menor_ponto(lista **node){
     free(menor);
 }
 
+
 void buscar_tirar(lista **node, int etiq){
     lista *anterior = NULL;
     lista *atual = *node;
@@ -114,6 +115,7 @@ void buscar_tirar(lista **node, int etiq){
 
     free(atual);
 }
+
 
 char *buscar_imprimir(lista *node, int etiq){
 	lista *atual = node;
@@ -205,7 +207,7 @@ void selecionar_pontos_e_gols(lista **no, lista **nod, int etiq1, int etiq2){
 	recebe_gols_sofridos(no, etiq1, pontos2);
 
 	buscar_selecionar_pontos(no, nod, etiq1, etiq2, pontos1, pontos2);
-	system("cls");
+	//system("cls");
 }
 
 
@@ -295,8 +297,12 @@ int retorna_maior(lista *node){
 
 	prox = aux->proximo;
 
-	if(aux->dados.pontos > prox->dados.pontos){
+	if(aux->proximo == NULL){
 		return aux->dados.etiqueta;
+
+	}else if(aux->dados.pontos > prox->dados.pontos){
+		return aux->dados.etiqueta;
+
 	}
 	
 	return prox->dados.etiqueta;
@@ -310,8 +316,12 @@ int retorna_menor(lista *node){
 
 	prox = aux->proximo;
 
-	if(aux->dados.pontos < prox->dados.pontos){
+	if(aux->proximo == NULL){
 		return aux->dados.etiqueta;
+
+	}else if(aux->dados.pontos < prox->dados.pontos){
+		return aux->dados.etiqueta;
+
 	}
 	
 	return prox->dados.etiqueta;
@@ -347,14 +357,17 @@ int retorna_gols(lista *node, int etiq){
 }
 
 
-void sistema_quartas(lista **maior, lista **menor, int etiq_maior, int etiq_menor){
+int sistema_quartas(lista **maior, lista **menor, int etiq_maior, int etiq_menor){
 	printf("\n | QUARTAS DE FINAL |\n\n");
 	lista *ma = *maior;
 	lista *me = *menor;
     
-    int gols_do_maior = retorna_gols(ma, etiq_maior);
-	int gols_do_menor = retorna_gols(me, etiq_menor);
-        
+    int gols_do_maior;
+	int gols_do_menor;
+    
+	int retorno_ma_antes = retorna_gols(ma, etiq_maior);
+	int retorno_me_antes = retorna_gols(me, etiq_menor);
+
 	selecionar_pontos_e_gols(maior, menor, etiq_maior, etiq_menor);
 	
 	calcula_saldo(maior);
@@ -362,15 +375,36 @@ void sistema_quartas(lista **maior, lista **menor, int etiq_maior, int etiq_meno
 	mostra_contagem(ma, etiq_maior);
 	mostra_contagem(me, etiq_menor);
     
-	gols_do_maior -= retorna_gols(ma, etiq_maior);
-	gols_do_menor -= retorna_gols(me, etiq_menor);
+	int retorno_ma_depois = retorna_gols(ma, etiq_maior);
+	int retorno_me_depois = retorna_gols(me, etiq_menor);
+	
+
+	if(retorno_ma_antes > retorno_ma_depois){
+		gols_do_maior = retorno_ma_antes - retorno_ma_depois;
+	}else{
+		gols_do_maior = retorno_ma_depois - retorno_ma_antes;
+	}
+
+
+	if(retorno_me_antes > retorno_me_depois){
+		gols_do_menor = retorno_me_antes - retorno_me_depois;
+	}else{
+		gols_do_menor = retorno_me_depois - retorno_me_antes;
+	}
+	
     
 	printar(ma);
+	printar(me);
+
+	printf("%d\n", gols_do_maior);
+	printf("%d\n", gols_do_menor);
 
 	if(gols_do_maior > gols_do_menor){
 		buscar_tirar(menor, etiq_menor);
+		return etiq_maior;
 	}else{
 		buscar_tirar(maior, etiq_maior);
+		return etiq_menor;
 	}
 	
 }
@@ -470,11 +504,22 @@ int main(){
 			i++;
 		}
 
+		int etiq_semi_final[4];
+
 		//quartas
-		sistema_quartas(&ga, &gb, retorna_maior(ga), retorna_menor(gb));
-		sistema_quartas(&gb, &gc, retorna_maior(gb), retorna_menor(gc));
-		sistema_quartas(&gc, &gd, retorna_maior(gc), retorna_menor(gd));
-		sistema_quartas(&gd, &ga, retorna_maior(gd), retorna_menor(ga));
+		etiq_semi_final[0] = sistema_quartas(&ga, &gb, retorna_maior(ga), retorna_menor(gb));
+		etiq_semi_final[1] = sistema_quartas(&gb, &gc, retorna_maior(gb), retorna_menor(gc));
+		etiq_semi_final[2] = sistema_quartas(&gc, &gd, retorna_maior(gc), retorna_menor(gd));
+		etiq_semi_final[3] = sistema_quartas(&gd, &ga, retorna_maior(gd), retorna_menor(ga));
+
+		/*
+		//semi-final
+		if((etiq_semi_final[0] > 4) && (etiq_semi_final[0] < 9)){
+
+		}else{
+
+		}
+		*/
 
 		printf("\nDeseja criar um novo campeonato?[s/n]\n");
 		scanf(" %c", &r);
