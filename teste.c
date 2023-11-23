@@ -357,7 +357,7 @@ int retorna_gols(lista *node, int etiq){
 }
 
 
-int sistema_quartas(lista **maior, lista **menor, int etiq_maior, int etiq_menor){
+int sistema_mata_mata(lista **maior, lista **menor, int etiq_maior, int etiq_menor){
 	printf("\n | QUARTAS DE FINAL |\n\n");
 	lista *ma = *maior;
 	lista *me = *menor;
@@ -507,19 +507,20 @@ int main(){
 		int etiq_semi_final[4];
 
 		//quartas
-		etiq_semi_final[0] = sistema_quartas(&ga, &gb, retorna_maior(ga), retorna_menor(gb));
-		etiq_semi_final[1] = sistema_quartas(&gb, &gc, retorna_maior(gb), retorna_menor(gc));
-		etiq_semi_final[2] = sistema_quartas(&gc, &gd, retorna_maior(gc), retorna_menor(gd));
-		etiq_semi_final[3] = sistema_quartas(&gd, &ga, retorna_maior(gd), retorna_menor(ga));
-
-		/*
+		etiq_semi_final[0] = sistema_mata_mata(&ga, &gb, retorna_maior(ga), retorna_menor(gb));
+		etiq_semi_final[1] = sistema_mata_mata(&gb, &gc, retorna_maior(gb), retorna_menor(gc));
+		etiq_semi_final[2] = sistema_mata_mata(&gc, &gd, retorna_maior(gc), retorna_menor(gd));
+		etiq_semi_final[3] = sistema_mata_mata(&gd, &ga, retorna_maior(gd), retorna_menor(ga));
+    
+		
 		//semi-final
-		if((etiq_semi_final[0] > 4) && (etiq_semi_final[0] < 9)){
-
-		}else{
-
-		}
-		*/
+	    if((etiq_semi_final[0] <= 4) && (etiq_semi_final[1] > 4 && etiq_semi_final[1] < 9)){
+	        sistema_mata_mata(&ga, &gb, etiq_semi_final[0, etiq_semi_final[1]]);
+	        
+	    }else if((etiq_semi_final[1] > 4 && etiq_semi_final[1] < 9) && ()){
+	        
+	    }
+		
 
 		printf("\nDeseja criar um novo campeonato?[s/n]\n");
 		scanf(" %c", &r);
