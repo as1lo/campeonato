@@ -283,10 +283,13 @@ void mostra_contagem(lista *node, int etiq){
 void printar(lista *node){
 	lista *aux = node;
 
+	
 	while(aux != NULL){
 		printf("%s, ", aux->dados.nome);
 		aux = aux->proximo;
 	}
+	
+	
 	printf("\n");
 }
 
@@ -358,7 +361,6 @@ int retorna_gols(lista *node, int etiq){
 
 
 int sistema_mata_mata(lista **maior, lista **menor, int etiq_maior, int etiq_menor){
-	printf("\n | QUARTAS DE FINAL |\n\n");
 	lista *ma = *maior;
 	lista *me = *menor;
     
@@ -392,12 +394,6 @@ int sistema_mata_mata(lista **maior, lista **menor, int etiq_maior, int etiq_men
 		gols_do_menor = retorno_me_depois - retorno_me_antes;
 	}
 	
-    
-	printar(ma);
-	printar(me);
-
-	printf("%d\n", gols_do_maior);
-	printf("%d\n", gols_do_menor);
 
 	if(gols_do_maior > gols_do_menor){
 		buscar_tirar(menor, etiq_menor);
@@ -408,7 +404,6 @@ int sistema_mata_mata(lista **maior, lista **menor, int etiq_maior, int etiq_men
 	}
 	
 }
-
 
 int main(){
 	char r;
@@ -504,24 +499,106 @@ int main(){
 			i++;
 		}
 
-		int etiq_semi_final[4];
+		int etiq_sf[4]; //recebe a etiqueta dos times vencedores das quartas
 
-		//quartas
-		etiq_semi_final[0] = sistema_mata_mata(&ga, &gb, retorna_maior(ga), retorna_menor(gb));
-		etiq_semi_final[1] = sistema_mata_mata(&gb, &gc, retorna_maior(gb), retorna_menor(gc));
-		etiq_semi_final[2] = sistema_mata_mata(&gc, &gd, retorna_maior(gc), retorna_menor(gd));
-		etiq_semi_final[3] = sistema_mata_mata(&gd, &ga, retorna_maior(gd), retorna_menor(ga));
+		//quartas 
+		printf("\n | QUARTAS DE FINAL |\n\n");
+		etiq_sf[0] = sistema_mata_mata(&ga, &gb, retorna_maior(ga), retorna_menor(gb));
+		printf("\n | QUARTAS DE FINAL |\n\n");
+		etiq_sf[1] = sistema_mata_mata(&gb, &gc, retorna_maior(gb), retorna_menor(gc));
+		printf("\n | QUARTAS DE FINAL |\n\n");
+		etiq_sf[2] = sistema_mata_mata(&gc, &gd, retorna_maior(gc), retorna_menor(gd));
+		printf("\n | QUARTAS DE FINAL |\n\n");
+		etiq_sf[3] = sistema_mata_mata(&gd, &ga, retorna_maior(gd), retorna_menor(ga));
     
-		
-		//semi-final
-	    if((etiq_semi_final[0] <= 4) && (etiq_semi_final[1] > 4 && etiq_semi_final[1] < 9)){
-	        sistema_mata_mata(&ga, &gb, etiq_semi_final[0, etiq_semi_final[1]]);
-	        
-	    }else if((etiq_semi_final[1] > 4 && etiq_semi_final[1] < 9) && ()){
-	        
-	    }
+		lista **pont_sf[4];
+
+		//semi-final 
+		if(etiq_sf[0] <= 4){
+			pont_sf[0] = &ga;
+		}else{
+			pont_sf[0] = &gb;
+		}
+
+		if(etiq_sf[1] > 4 && etiq_sf[1] < 9){
+			pont_sf[1] = &gb;
+		}else{
+			pont_sf[1] = &gc;
+		}
+
+		if(etiq_sf[2] > 8 && etiq_sf[2] < 13){
+			pont_sf[2] = &gc;
+		}else{
+			pont_sf[2] = &gd;
+		}
+
+		if(etiq_sf[3] <= 4){
+			pont_sf[3] = &ga;
+		}else{
+			pont_sf[3] = &gd;
+		}
+
+		printar(ga);
+		printar(gb);
+		printar(gc);
+		printar(gd);
+
+		printf("\n | SEMI-FINAL |\n\n");
+		etiq_sf[0] = sistema_mata_mata(pont_sf[0], pont_sf[2], etiq_sf[0], etiq_sf[2]);
+		printf("\n | SEMI-FINAL |\n\n");
+	    etiq_sf[2] = sistema_mata_mata(pont_sf[1], pont_sf[3], etiq_sf[1], etiq_sf[3]);
+
+		printar(ga);
+		printar(gb);
+		printar(gc);
+		printar(gd);
+
+		if(etiq_sf[0] <= 4){
+			pont_sf[0] = &ga;
+		}else if(etiq_sf[0] > 4 && etiq_sf[0] < 9){
+			pont_sf[0] = &gb;
+		}else if(etiq_sf[0] > 8 && etiq_sf[0] < 13){
+			pont_sf[0] = &gc;
+		}else{
+			pont_sf[0] = &gd;
+		}
+
+		if(etiq_sf[2] <= 4){
+			pont_sf[2] = &ga;
+		}else if(etiq_sf[2] > 4 && etiq_sf[2] < 9){
+			pont_sf[2] = &gb;
+		}else if(etiq_sf[2] > 8 && etiq_sf[2] < 13){
+			pont_sf[2] = &gc;
+		}else{
+			pont_sf[2] = &gd;
+		}
 		
 
+		printf("\n | FINAL |\n\n");
+		etiq_sf[0] = sistema_mata_mata(pont_sf[0], pont_sf[2], etiq_sf[0], etiq_sf[2]);
+
+		printar(ga);
+		printar(gb);
+		printar(gc);
+		printar(gd);
+
+		if(etiq_sf[0] <= 4){
+			pont_sf[0] = &ga;
+			printf("VENCEDOR: %s!\n", buscar_imprimir(ga, etiq_sf[0]));
+		}else if(etiq_sf[0] > 4 && etiq_sf[0] < 9){
+			pont_sf[0] = &gb;
+			printf("VENCEDOR: %s!\n", buscar_imprimir(gb, etiq_sf[0]));
+		}else if(etiq_sf[0] > 8 && etiq_sf[0] < 13){
+			pont_sf[0] = &gc;
+			printf("VENCEDOR: %s!\n", buscar_imprimir(gc, etiq_sf[0]));
+		}else{
+			pont_sf[0] = &gd;
+			printf("VENCEDOR: %s!\n", buscar_imprimir(gd, etiq_sf[0]));
+		}
+
+		
+		buscar_tirar(pont_sf[0], etiq_sf[0]);
+		
 		printf("\nDeseja criar um novo campeonato?[s/n]\n");
 		scanf(" %c", &r);
 
