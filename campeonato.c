@@ -1,17 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #define NTIME 4
-
-
-//OBS: adicionar a troca de fase: todos os times, de cada grupo, se enfrentam no sistema ida e volta
-		//o 2 melhores times, com melhor saldo, se enfrentam nas 4 de finais.
-		//1° colocado A x 2° colocado de B
-		//1° colocado B x 2° colocado de C
-		//1° colocado C x 2° colocado de D
-		//1° colocado D x 2° colocado de A
-		
-//OBS: declarar o vencedor final como campeão
 
 typedef struct time{
 	char nome[30];
@@ -48,28 +37,6 @@ void inserir(lista **fim, time dados){
 	}
 }
 
-/*
-int verifica_menor_ponto(lista **no){
-	lista *aux = *no;
-	
-	int etiq = aux->dados.etiqueta;
-	int verifica = aux->dados.pontos;
-
-	while(aux != NULL){
-		printf("%d\n", etiq);
-		
-		if(aux->dados.pontos < verifica){
-			etiq = aux->dados.etiqueta;
-			verifica = aux->dados.pontos;
-		}
-		
-		aux = aux->proximo;
-	
-	}
-	
-	return etiq;
-}
-*/
 
 void buscar_tirar_menor_ponto(lista **node){
     lista *anterior = NULL;
@@ -280,6 +247,7 @@ void mostra_contagem(lista *node, int etiq){
 }
 
 
+//função de teste para depuração
 void printar(lista *node){
 	lista *aux = node;
 
@@ -404,6 +372,7 @@ int sistema_mata_mata(lista **maior, lista **menor, int etiq_maior, int etiq_men
 	}
 	
 }
+
 
 int main(){
 	char r;
