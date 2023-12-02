@@ -21,3 +21,5 @@ Quantos gols/pontos/cesta cada time sofreu
 Saldo de gols/pontos/cestas de cada time
 
 Quando o campeonato finalizar, deve-se solicitar ao usuário se deseja criar um novo campeonato
+
+(projeto feito utilizando lista encadeada simples)
