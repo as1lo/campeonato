@@ -6,10 +6,10 @@ Todos os times de cada grupo se enfrentam no sistema de ida e volta (ou seja, se
 
 
 Os dois melhores times de cada grupo se enfrentam na quartas de finais no seguinte sistema
-##  1° colocado  A x 2º colocado do grupo B
-##  1° colocado  B  x 2º colocado do grupo C
-## 1° colocado  C x 2º colocado do grupo D
-## 1° colocado  D x 2º colocado do grupo A
+###  1° colocado  A x 2º colocado do grupo B
+###  1° colocado  B  x 2º colocado do grupo C
+### 1° colocado  C x 2º colocado do grupo D
+### 1° colocado  D x 2º colocado do grupo A
 
 Os vencedores das quartas se enfrentam na semi-final e consequentemente os vencedores das partidas se enfrentam na final
 O vencedor da partida final deve ser declarado campeão!
